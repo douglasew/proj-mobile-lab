@@ -41,7 +41,15 @@ const RegisterScreen = (props: RegisterScreenProps) => {
             })}
             onSubmit={registrar}
           >
-            {({ handleChange, handleSubmit, handleBlur, touched, errors }) => (
+            {({
+              handleChange,
+              handleSubmit,
+              handleBlur,
+              touched,
+              errors,
+              isValid,
+              dirty,
+            }) => (
               <View style={{ width: 350 }}>
                 <Text style={styles.text}>NOME</Text>
                 <Input
@@ -90,6 +98,7 @@ const RegisterScreen = (props: RegisterScreenProps) => {
                     shadowRadius: 3,
                   }}
                   title="CADASTRAR"
+                  disabled={!(isValid && dirty)}
                   onPress={() => nav.navigate('home')}
                 />
               </View>
