@@ -99,7 +99,7 @@ const RegisterScreen = (props: RegisterScreenProps) => {
                   }}
                   title="CADASTRAR"
                   disabled={!(isValid && dirty)}
-                  onPress={() => nav.navigate('home')}
+                  onPress={() => nav.navigate('app')}
                 />
               </View>
             )}
