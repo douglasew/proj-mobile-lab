@@ -1,16 +1,16 @@
 import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
 import * as React from 'react'
-import { StyleSheet, ImageBackground, View, SafeAreaView } from 'react-native'
-import { Text, Button, Input, Icon, Image } from 'react-native-elements'
+import { ImageBackground, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Button, Image, Input, Text } from 'react-native-elements'
 import * as Yup from 'yup'
-import backgroud from '../../../src/img/image-from-rawpixel-id-594508-jpeg.jpg'
-import logo from '../../img/Black__Yellow_Museum_Logo.png'
+import logo from '../../assets/images/Black__Yellow_Museum_Logo.png'
+import backgroud from '../../assets/images/image-from-rawpixel-id-594508-jpeg.jpg'
 
 interface LoginProps {}
 
 const Login = (props: LoginProps) => {
-  const nav = useNavigation()
+  const nav = useNavigation<any>()
 
   const logar = async (dados) => {
     console.log(dados)
@@ -43,7 +43,15 @@ const Login = (props: LoginProps) => {
             })}
             onSubmit={logar}
           >
-            {({ handleChange, handleSubmit, touched, handleBlur, errors }) => (
+            {({
+              handleChange,
+              handleSubmit,
+              touched,
+              handleBlur,
+              errors,
+              isValid,
+              dirty,
+            }) => (
               <View style={{ width: 350 }}>
                 <Text style={styles.text}>E-MAIL</Text>
                 <Input
@@ -80,6 +88,7 @@ const Login = (props: LoginProps) => {
                     shadowRadius: 3,
                   }}
                   title="ACESSAR"
+                  disabled={!(isValid && dirty)}
                   onPress={() => handleSubmit()}
                 />
                 <Button

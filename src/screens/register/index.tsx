@@ -1,16 +1,16 @@
-import * as React from 'react'
-import { Formik } from 'formik'
-import { View, StyleSheet, SafeAreaView, ImageBackground } from 'react-native'
-import { Text, Button, Input, Icon, Image } from 'react-native-elements'
-import * as Yup from 'yup'
-import backgroud from '../../../src/img/image-from-rawpixel-id-594508-jpeg.jpg'
-import logo from '../../img/Black__Yellow_Museum_Logo.png'
 import { useNavigation } from '@react-navigation/native'
+import { Formik } from 'formik'
+import * as React from 'react'
+import { ImageBackground, SafeAreaView, StyleSheet, View } from 'react-native'
+import { Button, Image, Input, Text } from 'react-native-elements'
+import * as Yup from 'yup'
+import logo from '../../assets/images/Black__Yellow_Museum_Logo.png'
+import backgroud from '../../assets/images/image-from-rawpixel-id-594508-jpeg.jpg'
 
 interface RegisterScreenProps {}
 
 const RegisterScreen = (props: RegisterScreenProps) => {
-  const nav = useNavigation()
+  const nav = useNavigation<any>()
 
   const registrar = async (dados) => {
     console.log(dados)

@@ -1,18 +1,15 @@
 import * as React from 'react'
-import { View, StyleSheet, SafeAreaView } from 'react-native'
-import { Text, Avatar, Icon, SearchBar } from 'react-native-elements'
-
+import { View, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native'
+import { Text, Avatar, Icon } from 'react-native-elements'
+import Toolbar from '../../components/toolbar'
 interface HomeScreenProps {}
 
 const HomeScreen = (props: HomeScreenProps) => {
   let name = 'Douglas'
-  const [search, setSearch] = React.useState('')
-  const updateSearch = (search) => {
-    setSearch(search)
-  }
 
   return (
     <SafeAreaView style={styles.container}>
+      <Toolbar title="Inicio" />
       <View style={styles.header}>
         <View style={{ flexDirection: 'row', top: 20 }}>
           <Avatar
@@ -32,85 +29,63 @@ const HomeScreen = (props: HomeScreenProps) => {
           <View style={styles.icon}>
             <Icon
               size={35}
-              color={'back'}
+              color={'black'}
               name="notifications"
               onPress={() => console.log('notifications')}
             />
           </View>
         </View>
-        <View style={styles.search}>
-          <SearchBar
-            placeholder="Pesquisar"
-            onChangeText={updateSearch}
-            value={search}
-            lightTheme={true}
-            inputStyle={{ width: 250 }}
-            containerStyle={{ backgroundColor: 'transparent', borderWidth: 0 }}
-          />
-        </View>
         <View></View>
       </View>
-      <View style={{ top: 30 }}>
+      <View style={{ top: 20 }}>
         <View style={styles.options}>
-          <View style={styles.button}>
-            <Icon
-              name="dashboard"
-              size={100}
-              color={'#23D9BC'}
-              onPress={() => console.log('Dashboard')}
-            />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => console.log('Dashboard')}
+          >
+            <Icon name="dashboard" size={100} color={'#23D9BC'} />
             <Text style={{ textAlign: 'center' }}>Dashboard</Text>
-          </View>
-          <View style={styles.button}>
-            <Icon
-              name="event"
-              size={100}
-              color={'#89A4FF'}
-              onPress={() => console.log('Tarefas')}
-            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => console.log('Tarefas')}
+          >
+            <Icon name="event" size={100} color={'#89A4FF'} />
             <Text style={{ textAlign: 'center' }}>Tarefas</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.options}>
-          <View style={styles.button}>
-            <Icon
-              name="star-border"
-              size={100}
-              color={'#FEBF5F'}
-              onPress={() => console.log('Avaliação')}
-            />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => console.log('Avaliação')}
+          >
+            <Icon name="star-border" size={100} color={'#FEBF5F'} />
             <Text style={{ textAlign: 'center' }}>Avaliação</Text>
-          </View>
+          </TouchableOpacity>
 
-          <View style={styles.button}>
-            <Icon
-              name="query-builder"
-              size={100}
-              color={'#D4BAF0'}
-              onPress={() => console.log('Minutos')}
-            />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => console.log('Minutos')}
+          >
+            <Icon name="query-builder" size={100} color={'#D4BAF0'} />
             <Text style={{ textAlign: 'center' }}>Minutos</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.options}>
-          <View style={styles.button}>
-            <Icon
-              name="done"
-              size={100}
-              color={'#5EE218'}
-              onPress={() => console.log('Registros')}
-            />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => console.log('Registros')}
+          >
+            <Icon name="done" size={100} color={'#5EE218'} />
             <Text style={{ textAlign: 'center' }}>Registros</Text>
-          </View>
-          <View style={styles.button}>
-            <Icon
-              name="report"
-              size={100}
-              color={'red'}
-              onPress={() => console.log('Reports')}
-            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => console.log('Reports')}
+          >
+            <Icon name="report" size={100} color={'red'} />
             <Text style={{ textAlign: 'center' }}>Reports</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -155,6 +130,7 @@ const styles = StyleSheet.create({
     width: 130,
     height: 130,
     alignContent: 'center',
+    borderRadius: 15,
 
     shadowColor: 'gray',
     shadowOffset: { width: -2, height: 4 },
