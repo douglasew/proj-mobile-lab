@@ -89,7 +89,8 @@ const Login = (props: LoginProps) => {
                   }}
                   title="ACESSAR"
                   disabled={!(isValid && dirty)}
-                  onPress={() => handleSubmit()}
+                  //onPress={() => handleSubmit()}
+                  onPress={() => nav.navigate('app')}
                 />
                 <Button
                   buttonStyle={{ backgroundColor: '#db504a', height: 50 }}

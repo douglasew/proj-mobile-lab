@@ -1,12 +1,14 @@
+import { useNavigation } from '@react-navigation/native'
 import * as React from 'react'
-import { View, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native'
-import { Text, Avatar, Icon } from 'react-native-elements'
+import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Avatar, Icon, Text } from 'react-native-elements'
+//import UserIcon from '../../assets/images/icon_user.png'
 import Toolbar from '../../components/toolbar'
 interface HomeScreenProps {}
 
 const HomeScreen = (props: HomeScreenProps) => {
-  let name = 'Douglas'
-
+  let name = 'Usuario'
+  const nav = useNavigation<any>()
   return (
     <SafeAreaView style={styles.container}>
       <Toolbar title="Inicio" />
@@ -17,7 +19,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             containerStyle={{ alignSelf: 'center', left: 10 }}
             size={70}
             source={{
-              uri: 'https://s2.glbimg.com/AiGp7DBm8nXkLk5iAA0YmeBEgf8=/0x0:984x612/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_e84042ef78cb4708aeebdf1c68c6cbd6/internal_photos/bs/2022/A/3/AHyD7qQlO1TaMsseqLNg/casimiro.jpg',
+              uri: 'https://icons-for-free.com/download-icon-business+costume+male+man+office+user+icon-1320196264882354682_512.png',
             }}
           />
           <View style={styles.introduction}>
@@ -41,26 +43,26 @@ const HomeScreen = (props: HomeScreenProps) => {
         <View style={styles.options}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => console.log('Dashboard')}
+            onPress={() => nav.navigate('list')}
           >
-            <Icon name="dashboard" size={100} color={'#23D9BC'} />
-            <Text style={{ textAlign: 'center' }}>Dashboard</Text>
+            <Icon name="filter-list" size={100} color={'#23D9BC'} />
+            <Text style={{ textAlign: 'center' }}>Usuarios</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => console.log('Tarefas')}
           >
             <Icon name="event" size={100} color={'#89A4FF'} />
-            <Text style={{ textAlign: 'center' }}>Tarefas</Text>
+            <Text style={{ textAlign: 'center' }}>Calendário</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.options}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => console.log('Avaliação')}
+            onPress={() => nav.navigate('photo')}
           >
-            <Icon name="star-border" size={100} color={'#FEBF5F'} />
-            <Text style={{ textAlign: 'center' }}>Avaliação</Text>
+            <Icon name="image" size={100} color={'#FEBF5F'} />
+            <Text style={{ textAlign: 'center' }}>Foto</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: 'white',
-    height: 180,
+    height: 150,
     borderBottomEndRadius: 25,
     borderBottomLeftRadius: 25,
   },
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   options: {
-    padding: 20,
+    padding: 15,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
   },
