@@ -1,14 +1,30 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
+import jwt_decode from 'jwt-decode'
 import * as React from 'react'
 import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Avatar, Icon, Text } from 'react-native-elements'
-//import UserIcon from '../../assets/images/icon_user.png'
 import Toolbar from '../../components/toolbar'
+import api from '../../libs/api'
+import { User } from '../../model/users'
+
 interface HomeScreenProps {}
 
 const HomeScreen = (props: HomeScreenProps) => {
-  let name = 'Usuario'
+  const [user, setuser] = React.useState<User[]>([])
   const nav = useNavigation<any>()
+
+  React.useEffect(() => {
+    nav.addListener('focus', async () => {
+      var token = await AsyncStorage.getItem('jwt')
+      var decoded = jwt_decode(token)
+      var user_id = decoded['id']
+      AsyncStorage.setItem('user_id', user_id)
+
+      api.get(`/users/${user_id}`).then((response) => setuser(response.data))
+    })
+  }, [])
+
   return (
     <SafeAreaView style={styles.container}>
       <Toolbar title="Inicio" />
@@ -19,12 +35,12 @@ const HomeScreen = (props: HomeScreenProps) => {
             containerStyle={{ alignSelf: 'center', left: 10 }}
             size={70}
             source={{
-              uri: 'https://icons-for-free.com/download-icon-business+costume+male+man+office+user+icon-1320196264882354682_512.png',
+              uri: `data:image/jpeg;base64,${user['photo']}`,
             }}
           />
           <View style={styles.introduction}>
-            <Text style={{ fontWeight: 'bold', fontSize: 25 }}>
-              Olá, {name}
+            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+              Olá, {user['name']}
             </Text>
             <Text>O que você fez hoje ?</Text>
           </View>
@@ -33,60 +49,43 @@ const HomeScreen = (props: HomeScreenProps) => {
               size={35}
               color={'black'}
               name="notifications"
-              onPress={() => console.log('notifications')}
+              onPress={() => console.log('notificações')}
             />
           </View>
         </View>
         <View></View>
       </View>
-      <View style={{ top: 20 }}>
+      <View style={{ top: 50 }}>
         <View style={styles.options}>
           <TouchableOpacity
             style={styles.button}
             onPress={() => nav.navigate('list')}
           >
             <Icon name="filter-list" size={100} color={'#23D9BC'} />
-            <Text style={{ textAlign: 'center' }}>Usuarios</Text>
+            <Text style={{ textAlign: 'center' }}>Encomendas</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => console.log('Tarefas')}
+            onPress={() => nav.navigate('filed')}
           >
-            <Icon name="event" size={100} color={'#89A4FF'} />
-            <Text style={{ textAlign: 'center' }}>Calendário</Text>
+            <Icon name="inventory" size={100} color={'#89A4FF'} />
+            <Text style={{ textAlign: 'center' }}>Arquivados</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.options}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => nav.navigate('photo')}
-          >
-            <Icon name="image" size={100} color={'#FEBF5F'} />
-            <Text style={{ textAlign: 'center' }}>Foto</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => console.log('Minutos')}
-          >
-            <Icon name="query-builder" size={100} color={'#D4BAF0'} />
-            <Text style={{ textAlign: 'center' }}>Minutos</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.options}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => console.log('Registros')}
-          >
-            <Icon name="done" size={100} color={'#5EE218'} />
-            <Text style={{ textAlign: 'center' }}>Registros</Text>
-          </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => console.log('Reports')}
           >
             <Icon name="report" size={100} color={'red'} />
             <Text style={{ textAlign: 'center' }}>Reports</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => nav.navigate('create-order')}
+          >
+            <Icon name="add" size={100} color={'#D4BAF0'} />
+            <Text style={{ textAlign: 'center' }}>Adicionar</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -117,13 +116,9 @@ const styles = StyleSheet.create({
     marginRight: 20,
     alignSelf: 'center',
   },
-  search: {
-    alignSelf: 'center',
-    top: 30,
-    flexDirection: 'column',
-  },
+
   options: {
-    padding: 15,
+    padding: 20,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
   },

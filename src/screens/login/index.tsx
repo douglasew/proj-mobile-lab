@@ -1,11 +1,19 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
 import * as React from 'react'
-import { ImageBackground, SafeAreaView, StyleSheet, View } from 'react-native'
+import {
+  ImageBackground,
+  SafeAreaView,
+  StyleSheet,
+  ToastAndroid,
+  View,
+} from 'react-native'
 import { Button, Image, Input, Text } from 'react-native-elements'
 import * as Yup from 'yup'
 import logo from '../../assets/images/Black__Yellow_Museum_Logo.png'
 import backgroud from '../../assets/images/image-from-rawpixel-id-594508-jpeg.jpg'
+import api from '../../libs/api'
 
 interface LoginProps {}
 
@@ -13,10 +21,13 @@ const Login = (props: LoginProps) => {
   const nav = useNavigation<any>()
 
   const logar = async (dados) => {
-    console.log(dados)
-
-    if (dados.nome == 'teste') console.log('Logado com sucesso !!!!')
-    else console.log('Email ou senha incorreto')
+    await api
+      .post('/login', dados)
+      .then((response) => {
+        AsyncStorage.setItem('jwt', response.data.token)
+        nav.navigate('app')
+      })
+      .catch(() => ToastAndroid.show('Email ou senha incorreta', 3000))
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -55,7 +66,7 @@ const Login = (props: LoginProps) => {
               <View style={{ width: 350 }}>
                 <Text style={styles.text}>E-MAIL</Text>
                 <Input
-                  placeholder="Seu nome"
+                  placeholder="Seu email"
                   onChangeText={handleChange('email')}
                   onBlur={handleBlur('email')}
                   style={styles.input}
@@ -66,7 +77,8 @@ const Login = (props: LoginProps) => {
                 )}
                 <Text style={styles.text}>SENHA</Text>
                 <Input
-                  placeholder="Seu e-mail"
+                  placeholder="Sua senha"
+                  secureTextEntry={true}
                   onChangeText={handleChange('password')}
                   onBlur={handleBlur('password')}
                   style={styles.input}
@@ -89,8 +101,7 @@ const Login = (props: LoginProps) => {
                   }}
                   title="ACESSAR"
                   disabled={!(isValid && dirty)}
-                  //onPress={() => handleSubmit()}
-                  onPress={() => nav.navigate('app')}
+                  onPress={() => handleSubmit()}
                 />
                 <Button
                   buttonStyle={{ backgroundColor: '#db504a', height: 50 }}

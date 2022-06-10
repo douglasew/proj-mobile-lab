@@ -1,34 +1,16 @@
 import * as React from 'react'
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { SwipeRow } from 'react-native-swipe-list-view'
-import { User } from '../../model/users'
+import { Order } from '../../model/orders'
 
-interface ItemUserProps {
-  users: User
+interface OrdersFiledListProps {
+  orders: Order
+  onExcluir(id: string)
+  onArquivar(id: string)
 }
 
-const ItemUser = (props: ItemUserProps) => {
-  const excluir = (id: any) => {
-    Alert.alert(
-      'Excluir o usuario',
-      `Deseja realmente excluir ${props.users.name} ?`,
-      [
-        {
-          text: 'Sim',
-          onPress: () => {
-            console.log('Usuario excluido')
-          },
-        },
-        { text: 'Não' },
-      ]
-    )
-  }
-
-  const editar = () => {
-    console.log('Editar')
-  }
-
+const OrdersFiledList = (props: OrdersFiledListProps) => {
   return (
     <View>
       <SwipeRow
@@ -38,30 +20,45 @@ const ItemUser = (props: ItemUserProps) => {
         stopRightSwipe={-60}
       >
         <View style={styles.options}>
-          <TouchableOpacity style={styles.edit} onPress={editar}>
-            <Icon name="edit" color={'white'} />
+          <TouchableOpacity
+            style={styles.edit}
+            onPress={() => props.onArquivar(props.orders.id)}
+          >
+            <Icon name="list" color={'white'} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.delete} onPress={excluir}>
+          <TouchableOpacity
+            style={styles.delete}
+            onPress={() => props.onExcluir(props.orders.id)}
+          >
             <Icon name="delete" color={'white'} />
           </TouchableOpacity>
         </View>
 
         <View style={styles.container}>
-          <Text>{props.users.name}</Text>
-          <Text>{props.users.status}</Text>
+          <Icon name="computer" color={'black'} size={50} />
+          <View style={styles.info}>
+            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+              {props.orders.number}
+            </Text>
+            <Text>{props.orders.reminder}</Text>
+          </View>
         </View>
       </SwipeRow>
     </View>
   )
 }
 
-export default ItemUser
+export default OrdersFiledList
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     padding: 10,
-    justifyContent: 'space-between',
+    backgroundColor: 'white',
+  },
+  info: {
+    flexDirection: 'column',
+    left: 15,
     backgroundColor: 'white',
   },
   options: {

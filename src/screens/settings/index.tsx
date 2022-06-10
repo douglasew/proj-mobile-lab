@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import * as React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Icon } from 'react-native-elements'
@@ -6,6 +7,7 @@ import Toolbar from '../../components/toolbar'
 interface SettingsProps {}
 
 const Settings = (props: SettingsProps) => {
+  const nav = useNavigation<any>()
   return (
     <View style={styles.container}>
       <Toolbar title="Configurações" />
@@ -36,7 +38,7 @@ const Settings = (props: SettingsProps) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.options}
-          onPress={() => console.log('Sobre')}
+          onPress={() => nav.navigate('about')}
         >
           <Icon name="help" />
           <Text>Sobre</Text>
@@ -56,7 +58,7 @@ const styles = StyleSheet.create({
   },
   options: {
     height: 100,
-    paddingLeft: 30,
+    paddingLeft: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

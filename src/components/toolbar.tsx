@@ -1,7 +1,8 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import * as React from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import { Header, Icon } from 'react-native-elements'
+import { Header, Icon, Text } from 'react-native-elements'
 
 interface ToolbarProps {
   title: string
@@ -9,8 +10,10 @@ interface ToolbarProps {
 }
 
 const Toolbar = (props: ToolbarProps) => {
+  const nav = useNavigation<any>()
+
   let leftComponent = <View />
-  const nav = useNavigation()
+  let rightComponent = <View />
 
   if (props.back)
     leftComponent = (
@@ -19,11 +22,22 @@ const Toolbar = (props: ToolbarProps) => {
       </TouchableOpacity>
     )
 
+  rightComponent = (
+    <TouchableOpacity
+      onPress={() => {
+        AsyncStorage.removeItem('jwt')
+        nav.navigate('login')
+      }}
+    >
+      <Text style={{ color: 'white' }}>Sair</Text>
+    </TouchableOpacity>
+  )
+
   return (
     <Header
       leftComponent={leftComponent}
       centerComponent={{ text: props.title, style: { color: 'white' } }}
-      rightComponent={{ text: 'SAIR', style: { color: 'white' } }}
+      rightComponent={rightComponent}
     />
   )
 }
