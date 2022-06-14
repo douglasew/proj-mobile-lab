@@ -7,7 +7,7 @@ import { Order } from '../../model/orders'
 interface OrdersFiledListProps {
   orders: Order
   onExcluir(id: string)
-  onArquivar(id: string)
+  onActivate(id: string)
 }
 
 const OrdersFiledList = (props: OrdersFiledListProps) => {
@@ -22,7 +22,7 @@ const OrdersFiledList = (props: OrdersFiledListProps) => {
         <View style={styles.options}>
           <TouchableOpacity
             style={styles.edit}
-            onPress={() => props.onArquivar(props.orders.id)}
+            onPress={() => props.onActivate(props.orders.id)}
           >
             <Icon name="list" color={'white'} />
           </TouchableOpacity>
