@@ -22,14 +22,6 @@ const Settings = (props: SettingsProps) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.options}
-          onPress={() => console.log('Notificações')}
-        >
-          <Icon name="notifications" />
-          <Text>Notificações</Text>
-          <Icon name="chevron-right" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.options}
           onPress={() => console.log('Privaciade e segurança')}
         >
           <Icon name="lock" />
