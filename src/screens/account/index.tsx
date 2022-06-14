@@ -4,19 +4,19 @@ import * as ImagePicker from 'expo-image-picker'
 import { Formik } from 'formik'
 import * as React from 'react'
 import { StyleSheet, Text, ToastAndroid, View } from 'react-native'
-import { Avatar, Button, Input } from 'react-native-elements'
-//import UserIcon from '../../assets/images/icon_user.png'
+import { Avatar, Button } from 'react-native-elements'
+import { TextInput } from 'react-native-paper'
 import * as Yup from 'yup'
 import Toolbar from '../../components/toolbar'
 import api from '../../libs/api'
 import { User } from '../../model/users'
-
 interface AccountProps {}
 
 const Account = (props: AccountProps) => {
+  const nav = useNavigation<any>()
   const [photo, setPhoto] = React.useState(null)
   const [user, setuser] = React.useState<User[]>([])
-  const nav = useNavigation<any>()
+  const [passwordVisible, setPasswordVisible] = React.useState(true)
 
   React.useEffect(() => {
     nav.addListener('focus', async () => {
@@ -36,7 +36,19 @@ const Account = (props: AccountProps) => {
     })
 
     if (!result.cancelled) {
-      setPhoto(result.base64)
+      //setPhoto(result.base64)
+
+      var user_id = await AsyncStorage.getItem('user_id')
+
+      api
+        .put(`/users/photo/${user_id}`, { photo: result.base64 })
+        .then(() => {
+          ToastAndroid.show('Foto atualizada', 3000)
+          nav.navigate('home')
+        })
+        .catch(() =>
+          ToastAndroid.show('Não foi possivel conectar ao servidor', 3000)
+        )
     }
   }
 
@@ -47,6 +59,7 @@ const Account = (props: AccountProps) => {
       .put(`/users/${user_id}`, dados)
       .then(() => {
         ToastAndroid.show('Atualizado com sucesso', 3000)
+        nav.navigate('home')
       })
       .catch(() =>
         ToastAndroid.show('Não foi possivel conectar ao servidor', 3000)
@@ -62,7 +75,10 @@ const Account = (props: AccountProps) => {
           containerStyle={{ alignSelf: 'center', left: 10 }}
           size={200}
           source={{
-            uri: `data:image/jpeg;base64,${photo}`,
+            uri:
+              user['photo'] == null
+                ? 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
+                : `data:image/jpeg;base64,${user['photo']}`,
           }}
           onPress={() => updateImage()}
         />
@@ -71,8 +87,7 @@ const Account = (props: AccountProps) => {
           initialValues={{
             name: user['name'],
             email: user['email'],
-            photo: photo,
-            password: '',
+            password: user['password'],
           }}
           validationSchema={Yup.object({
             name: Yup.string().required('informe um nome valido'),
@@ -95,42 +110,47 @@ const Account = (props: AccountProps) => {
             dirty,
             values,
           }) => (
-            <View style={{ top: 20 }}>
+            <View style={{ top: 20, padding: 20 }}>
               <Text style={styles.text}>Nome</Text>
-              <Input
+              <TextInput
                 placeholder="Nome"
-                style={styles.input}
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
                 value={values.name}
-                inputContainerStyle={{ borderBottomWidth: 0 }}
+                mode="outlined"
+                theme={{ roundness: 10 }}
               />
               {touched.name && errors.name && (
                 <Text style={styles.erros}>{errors.name}</Text>
               )}
 
               <Text style={styles.text}>E-MAIL</Text>
-              <Input
+              <TextInput
                 placeholder="Email"
-                style={styles.input}
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
                 value={values.email}
-                inputContainerStyle={{ borderBottomWidth: 0 }}
+                mode="outlined"
+                theme={{ roundness: 10 }}
               />
               {touched.email && errors.email && (
                 <Text style={styles.erros}>{errors.email}</Text>
               )}
 
               <Text style={styles.text}>Mudar a Senha</Text>
-              <Input
+              <TextInput
                 placeholder="Senha"
-                style={styles.input}
-                secureTextEntry={true}
+                secureTextEntry={passwordVisible}
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
-                value={values.password}
-                inputContainerStyle={{ borderBottomWidth: 0 }}
+                mode="outlined"
+                theme={{ roundness: 10 }}
+                right={
+                  <TextInput.Icon
+                    name={passwordVisible ? 'eye' : 'eye-off'}
+                    onPress={() => setPasswordVisible(!passwordVisible)}
+                  />
+                }
               />
               {touched.password && errors.password && (
                 <Text style={styles.erros}>{errors.password}</Text>
@@ -142,7 +162,7 @@ const Account = (props: AccountProps) => {
                 containerStyle={{
                   width: 150,
                   alignSelf: 'center',
-                  top: 10,
+                  top: 20,
                   borderRadius: 15,
                   shadowOffset: { width: -2, height: 4 },
                   shadowColor: 'gray',
@@ -173,7 +193,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   erros: {
-    paddingLeft: 20,
+    paddingLeft: 10,
     color: 'red',
   },
 })
