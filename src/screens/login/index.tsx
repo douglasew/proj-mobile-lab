@@ -9,7 +9,8 @@ import {
   ToastAndroid,
   View,
 } from 'react-native'
-import { Button, Image, Input, Text } from 'react-native-elements'
+import { Button, Image, Text } from 'react-native-elements'
+import { TextInput } from 'react-native-paper'
 import * as Yup from 'yup'
 import logo from '../../assets/images/Black__Yellow_Museum_Logo.png'
 import backgroud from '../../assets/images/image-from-rawpixel-id-594508-jpeg.jpg'
@@ -19,6 +20,7 @@ interface LoginProps {}
 
 const Login = (props: LoginProps) => {
   const nav = useNavigation<any>()
+  const [passwordVisible, setPasswordVisible] = React.useState(true)
 
   const logar = async (dados) => {
     await api
@@ -65,24 +67,30 @@ const Login = (props: LoginProps) => {
             }) => (
               <View style={{ width: 350 }}>
                 <Text style={styles.text}>E-MAIL</Text>
-                <Input
+                <TextInput
                   placeholder="Seu email"
                   onChangeText={handleChange('email')}
                   onBlur={handleBlur('email')}
-                  style={styles.input}
-                  inputContainerStyle={{ borderBottomWidth: 0 }}
+                  mode="outlined"
+                  theme={{ roundness: 10 }}
                 />
                 {touched.email && errors.email && (
                   <Text style={styles.erros}>{errors.email}</Text>
                 )}
                 <Text style={styles.text}>SENHA</Text>
-                <Input
+                <TextInput
                   placeholder="Sua senha"
-                  secureTextEntry={true}
+                  secureTextEntry={passwordVisible}
                   onChangeText={handleChange('password')}
                   onBlur={handleBlur('password')}
-                  style={styles.input}
-                  inputContainerStyle={{ borderBottomWidth: 0 }}
+                  mode="outlined"
+                  theme={{ roundness: 10 }}
+                  right={
+                    <TextInput.Icon
+                      name={passwordVisible ? 'eye' : 'eye-off'}
+                      onPress={() => setPasswordVisible(!passwordVisible)}
+                    />
+                  }
                 />
                 {touched.password && errors.password && (
                   <Text style={styles.erros}>{errors.password}</Text>
@@ -133,12 +141,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 5,
   },
-  input: {
-    backgroundColor: 'white',
-    borderRadius: 15,
-    height: 55,
-    padding: 10,
-  },
   text: {
     color: 'gray',
     padding: 10,
@@ -150,7 +152,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   erros: {
-    paddingLeft: 20,
+    paddingLeft: 10,
     color: 'red',
   },
 })
