@@ -33,9 +33,12 @@ const HomeScreen = (props: HomeScreenProps) => {
           <Avatar
             rounded
             containerStyle={{ alignSelf: 'center', left: 10 }}
-            size={70}
+            size={90}
             source={{
-              uri: `data:image/jpeg;base64,${user['photo']}`,
+              uri:
+                user['photo'] == null
+                  ? 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
+                  : `data:image/jpeg;base64,${user['photo']}`,
             }}
           />
           <View style={styles.introduction}>
@@ -105,6 +108,7 @@ const styles = StyleSheet.create({
     height: 150,
     borderBottomEndRadius: 25,
     borderBottomLeftRadius: 25,
+    padding: 15,
   },
   introduction: {
     paddingLeft: 25,
