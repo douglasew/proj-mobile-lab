@@ -16,25 +16,31 @@ const Settings = (props: SettingsProps) => {
           style={styles.options}
           onPress={() => console.log('Aparencia')}
         >
-          <Icon name="visibility" />
-          <Text>Aparencia</Text>
-          <Icon name="chevron-right" />
+          <View style={{ flexDirection: 'row' }}>
+            <Icon name="visibility" />
+            <Text style={{ left: 30 }}>Aparencia</Text>
+          </View>
+          <Icon name="chevron-right" style={{ right: 10 }} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.options}
           onPress={() => console.log('Privaciade e segurança')}
         >
-          <Icon name="lock" />
-          <Text>Privaciade e segurança</Text>
-          <Icon name="chevron-right" />
+          <View style={{ flexDirection: 'row' }}>
+            <Icon name="lock" />
+            <Text style={{ left: 30 }}>Privaciade e segurança</Text>
+          </View>
+          <Icon name="chevron-right" style={{ right: 10 }} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.options}
           onPress={() => nav.navigate('about')}
         >
-          <Icon name="help" />
-          <Text>Sobre</Text>
-          <Icon name="chevron-right" />
+          <View style={{ flexDirection: 'row' }}>
+            <Icon name="help" />
+            <Text style={{ left: 30 }}>Sobre</Text>
+          </View>
+          <Icon name="chevron-right" style={{ right: 10 }} />
         </TouchableOpacity>
       </View>
     </View>
@@ -44,9 +50,9 @@ const Settings = (props: SettingsProps) => {
 export default Settings
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { backgroundColor: 'white', height: '100%' },
   option: {
-    marginTop: 200,
+    marginTop: 50,
   },
   options: {
     height: 100,

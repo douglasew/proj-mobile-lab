@@ -32,5 +32,8 @@ const About = (props: AboutProps) => {
 export default About
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: 'white',
+    height: '100%',
+  },
 })

@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import * as ImagePicker from 'expo-image-picker'
 import { Formik } from 'formik'
 import * as React from 'react'
-import { StyleSheet, Text, ToastAndroid, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, ToastAndroid, View } from 'react-native'
 import { Avatar, Button } from 'react-native-elements'
 import { TextInput } from 'react-native-paper'
 import * as Yup from 'yup'
@@ -36,8 +36,6 @@ const Account = (props: AccountProps) => {
     })
 
     if (!result.cancelled) {
-      //setPhoto(result.base64)
-
       var user_id = await AsyncStorage.getItem('user_id')
 
       api
@@ -67,7 +65,7 @@ const Account = (props: AccountProps) => {
   }
 
   return (
-    <View>
+    <ScrollView>
       <Toolbar title="Conta" />
       <View style={styles.container}>
         <Avatar
@@ -87,7 +85,7 @@ const Account = (props: AccountProps) => {
           initialValues={{
             name: user['name'],
             email: user['email'],
-            password: user['password'],
+            password: '',
           }}
           validationSchema={Yup.object({
             name: Yup.string().required('informe um nome valido'),
@@ -159,6 +157,7 @@ const Account = (props: AccountProps) => {
                 title={'salvar'}
                 onPress={() => handleSubmit()}
                 disabled={!(isValid && dirty)}
+                buttonStyle={{ backgroundColor: '#1E82D1', height: 50 }}
                 containerStyle={{
                   width: 150,
                   alignSelf: 'center',
@@ -173,8 +172,12 @@ const Account = (props: AccountProps) => {
             </View>
           )}
         </Formik>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 

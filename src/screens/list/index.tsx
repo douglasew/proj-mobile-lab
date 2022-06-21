@@ -1,10 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { Alert, StyleSheet, ToastAndroid, View } from 'react-native'
+import { Alert, Image, StyleSheet, ToastAndroid, View } from 'react-native'
 import { Text } from 'react-native-elements'
 import { FlatList } from 'react-native-gesture-handler'
 import { FAB } from 'react-native-paper'
+import icon from '../../assets/images/document-list.png'
 import Toolbar from '../../components/toolbar'
 import api from '../../libs/api'
 import { Order } from '../../model/orders'
@@ -13,6 +14,7 @@ import ItemOrder from './itens-order'
 interface ListProps {}
 
 const List = (props: ListProps) => {
+  const ICON = Image.resolveAssetSource(icon).uri
   const nav = useNavigation<any>()
   const [orders, setOrders] = React.useState<Order[]>([])
 
@@ -41,7 +43,7 @@ const List = (props: ListProps) => {
               .get(`/orders/user/${user_id}`)
               .then((response) => setOrders(response.data))
 
-            ToastAndroid.show('Encomenda excluida', ToastAndroid.LONG)
+            ToastAndroid.show('Encomenda excluida', ToastAndroid.SHORT)
           },
         },
         { text: 'Não' },
@@ -61,7 +63,7 @@ const List = (props: ListProps) => {
             .get(`/orders/user/${user_id}`)
             .then((response) => setOrders(response.data))
 
-          ToastAndroid.show('Encomenda arquivada', ToastAndroid.LONG)
+          ToastAndroid.show('Encomenda arquivada', ToastAndroid.SHORT)
         },
       },
       { text: 'Não' },
@@ -70,12 +72,7 @@ const List = (props: ListProps) => {
 
   return (
     <>
-      <FAB
-        style={styles.fab}
-        icon="plus"
-        onPress={() => nav.navigate('create-order')}
-      />
-      <View>
+      <View style={styles.container}>
         <Toolbar title="Encomendas" back={true} />
 
         {orders.length == 0 ? (
@@ -83,9 +80,15 @@ const List = (props: ListProps) => {
             style={{
               alignItems: 'center',
               justifyContent: 'center',
-              height: '85%',
+              height: '75%',
             }}
           >
+            <Image
+              source={{
+                uri: ICON,
+              }}
+              style={{ width: 300, height: 300 }}
+            />
             <Text>Lista de encomendas vazia</Text>
           </View>
         ) : (
@@ -104,6 +107,11 @@ const List = (props: ListProps) => {
           />
         )}
       </View>
+      <FAB
+        style={styles.fab}
+        icon="plus"
+        onPress={() => nav.navigate('create-order')}
+      />
     </>
   )
 }
@@ -111,9 +119,13 @@ const List = (props: ListProps) => {
 export default List
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: 'white',
+    height: '100%',
+  },
   list: {
-    marginBottom: 150,
+    marginBottom: 10,
+    top: 10,
   },
   fab: {
     position: 'absolute',

@@ -1,9 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import * as React from 'react'
-import { Alert, FlatList, StyleSheet, ToastAndroid, View } from 'react-native'
+import {
+  Alert,
+  FlatList,
+  Image,
+  StyleSheet,
+  ToastAndroid,
+  View,
+} from 'react-native'
 import { Text } from 'react-native-elements'
 import { FAB } from 'react-native-paper'
+import icon from '../../assets/images/document-filed.png'
 import Toolbar from '../../components/toolbar'
 import api from '../../libs/api'
 import { Order } from '../../model/orders'
@@ -12,6 +20,7 @@ import OrdersFiledList from './itens-orders'
 interface FiledProps {}
 
 const Filed = (props: FiledProps) => {
+  const ICON = Image.resolveAssetSource(icon).uri
   const nav = useNavigation<any>()
   const [orders, setOrders] = React.useState<Order[]>([])
 
@@ -36,7 +45,7 @@ const Filed = (props: FiledProps) => {
           api
             .get(`/orders/filed/${user_id}`)
             .then((response) => setOrders(response.data))
-          ToastAndroid.show('Encomenda excluida', ToastAndroid.LONG)
+          ToastAndroid.show('Encomenda excluida', ToastAndroid.SHORT)
         },
       },
       { text: 'Não' },
@@ -55,7 +64,7 @@ const Filed = (props: FiledProps) => {
             .get(`/orders/filed/${user_id}`)
             .then((response) => setOrders(response.data))
 
-          ToastAndroid.show('Encomenda ativada', ToastAndroid.LONG)
+          ToastAndroid.show('Encomenda ativada', ToastAndroid.SHORT)
         },
       },
       { text: 'Não' },
@@ -98,10 +107,16 @@ const Filed = (props: FiledProps) => {
             style={{
               alignItems: 'center',
               justifyContent: 'center',
-              height: '85%',
+              height: '75%',
             }}
           >
-            <Text>Nenhuma encomenda arquiada</Text>
+            <Image
+              source={{
+                uri: ICON,
+              }}
+              style={{ width: 300, height: 300 }}
+            />
+            <Text>Nenhuma encomenda arquivada</Text>
           </View>
         ) : (
           <FlatList
@@ -119,8 +134,12 @@ const Filed = (props: FiledProps) => {
           />
         )}
       </View>
-      <></>
-      <FAB style={styles.fab} icon="delete" onPress={() => deleteAll()} />
+      <FAB
+        style={styles.fab}
+        icon="delete"
+        onPress={() => deleteAll()}
+        disabled={orders.length < 2}
+      />
     </>
   )
 }
@@ -128,9 +147,12 @@ const Filed = (props: FiledProps) => {
 export default Filed
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: 'white',
+    height: '100%',
+  },
   list: {
-    marginBottom: 40,
+    top: 10,
   },
   fab: {
     position: 'absolute',

@@ -18,7 +18,7 @@ const Toolbar = (props: ToolbarProps) => {
   if (props.back)
     leftComponent = (
       <TouchableOpacity onPress={() => nav.goBack()}>
-        <Icon name="arrow-back" color="white" size={20} />
+        <Icon name="arrow-back" color="black" size={20} />
       </TouchableOpacity>
     )
 
@@ -29,14 +29,19 @@ const Toolbar = (props: ToolbarProps) => {
         nav.navigate('login')
       }}
     >
-      <Text style={{ color: 'white' }}>Sair</Text>
+      <Text style={{ color: 'black', fontWeight: 'bold' }}>Sair</Text>
     </TouchableOpacity>
   )
 
   return (
     <Header
+      containerStyle={{ top: 15 }}
+      backgroundColor="white"
       leftComponent={leftComponent}
-      centerComponent={{ text: props.title, style: { color: 'white' } }}
+      centerComponent={{
+        text: props.title,
+        style: { color: 'black', fontWeight: 'bold', fontSize: 15 },
+      }}
       rightComponent={rightComponent}
     />
   )

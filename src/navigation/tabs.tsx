@@ -1,10 +1,10 @@
-import * as React from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { MaterialIcons } from '@expo/vector-icons'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import * as React from 'react'
 
+import Account from '../screens/account'
 import Home from '../screens/home'
 import Settings from '../screens/settings'
-import Account from '../screens/account'
 
 interface TabsProps {}
 
@@ -16,9 +16,7 @@ const Tabs = (props: TabsProps) => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          height: 70,
-          borderTopEndRadius: 30,
-          borderTopStartRadius: 30,
+          height: 60,
           backgroundColor: 'white',
         },
       }}
@@ -27,7 +25,9 @@ const Tabs = (props: TabsProps) => {
         name="home"
         component={Home}
         options={{
-          tabBarIcon: () => <MaterialIcons name="home" size={40} />,
+          tabBarIcon: (props) => (
+            <MaterialIcons name="home" size={40} color={props.color} />
+          ),
           tabBarLabel: () => null,
         }}
       />
@@ -35,7 +35,9 @@ const Tabs = (props: TabsProps) => {
         name="account"
         component={Account}
         options={{
-          tabBarIcon: () => <MaterialIcons name="person" size={40} />,
+          tabBarIcon: (props) => (
+            <MaterialIcons name="person" size={40} color={props.color} />
+          ),
           tabBarLabel: () => null,
         }}
       />
@@ -43,7 +45,9 @@ const Tabs = (props: TabsProps) => {
         name="settings"
         component={Settings}
         options={{
-          tabBarIcon: () => <MaterialIcons name="settings" size={40} />,
+          tabBarIcon: (props) => (
+            <MaterialIcons name="settings" size={40} color={props.color} />
+          ),
           tabBarLabel: () => null,
         }}
       />
