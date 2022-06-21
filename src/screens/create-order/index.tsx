@@ -2,7 +2,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
 import * as React from 'react'
-import { StyleSheet, Text, ToastAndroid, View } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { Button } from 'react-native-elements'
 import {
   Dialog,
@@ -37,22 +43,24 @@ const CreateOrder = (props: CreateOrderProps) => {
   }, [])
 
   const registrar = async (dados) => {
-    console.log(dados)
     api
       .post('/orders', dados)
       .then(() => {
-        ToastAndroid.show('Encomenda adicionada', 3000)
+        ToastAndroid.show('Encomenda adicionada', ToastAndroid.SHORT)
         nav.navigate('home')
       })
       .catch(() =>
-        ToastAndroid.show('Não foi possivel conectar ao servidor', 3000)
+        ToastAndroid.show(
+          'Não foi possivel conectar ao servidor',
+          ToastAndroid.SHORT
+        )
       )
   }
 
   return (
     <>
       <View style={styles.container}>
-        <Toolbar title="Encomendas" back={true} />
+        <Toolbar title="Criar Encomenda" back={true} />
         <Formik
           enableReinitialize={true}
           initialValues={{
@@ -99,7 +107,7 @@ const CreateOrder = (props: CreateOrderProps) => {
               {touched.reminder && errors.reminder && (
                 <Text style={styles.erros}>{errors.reminder}</Text>
               )}
-
+              {/*
               <Button
                 onPress={showDialog}
                 containerStyle={{
@@ -109,9 +117,19 @@ const CreateOrder = (props: CreateOrderProps) => {
                 }}
                 title="Selecione uma categoria"
               />
-
+              */}
+              <TouchableOpacity onPress={showDialog} activeOpacity={1}>
+                <TextInput
+                  placeholder="Categoria"
+                  disabled
+                  style={{ top: 25 }}
+                  mode="outlined"
+                  theme={{ roundness: 10 }}
+                  right={<TextInput.Icon name={'arrow-down'} />}
+                />
+              </TouchableOpacity>
               <Button
-                buttonStyle={{ backgroundColor: '#db504a', height: 50 }}
+                buttonStyle={{ backgroundColor: '#1E82D1', height: 50 }}
                 containerStyle={{
                   width: 150,
                   alignSelf: 'center',
@@ -165,12 +183,11 @@ const CreateOrder = (props: CreateOrderProps) => {
 export default CreateOrder
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { backgroundColor: 'white', height: '100%' },
   text: {
     color: 'gray',
     padding: 10,
   },
-
   erros: {
     paddingLeft: 10,
     color: 'red',
