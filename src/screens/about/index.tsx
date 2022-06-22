@@ -11,21 +11,22 @@ const About = (props: AboutProps) => {
   const APP_LOGO = Image.resolveAssetSource(logo).uri
 
   return (
-    <View style={styles.container}>
+    <>
       <Toolbar title="Sobre" back={true} />
+      <View style={styles.container}>
+        <View style={{ top: 100, alignItems: 'center' }}>
+          <Image
+            source={{
+              uri: APP_LOGO,
+            }}
+            style={{ width: 200, height: 200 }}
+          />
 
-      <View style={{ top: 100, alignItems: 'center' }}>
-        <Image
-          source={{
-            uri: APP_LOGO,
-          }}
-          style={{ width: 200, height: 200 }}
-        />
-
-        <Text>1.0.0</Text>
-        <Text>app desenvolvido por: Douglas Ewerton</Text>
+          <Text>1.0.0</Text>
+          <Text>app desenvolvido por: Douglas Ewerton</Text>
+        </View>
       </View>
-    </View>
+    </>
   )
 }
 
@@ -35,5 +36,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     height: '100%',
+    top: 14,
   },
 })
