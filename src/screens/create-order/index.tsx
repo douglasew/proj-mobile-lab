@@ -27,12 +27,11 @@ interface CreateOrderProps {}
 const CreateOrder = (props: CreateOrderProps) => {
   const nav = useNavigation<any>()
   const [user, setUser] = React.useState<User[]>([])
-
+  const [category, setCategory] = React.useState('1')
   const [visible, setVisible] = React.useState(false)
+
   const showDialog = () => setVisible(true)
   const hideDialog = () => setVisible(false)
-
-  const [category, setCategory] = React.useState('1')
 
   React.useEffect(() => {
     nav.addListener('focus', async () => {
@@ -57,10 +56,18 @@ const CreateOrder = (props: CreateOrderProps) => {
       )
   }
 
+  const categoryOptions: Array<string> = [
+    '',
+    'Presente',
+    'Comida',
+    'Eletrônicos',
+    'Roupas',
+  ]
+
   return (
     <>
+      <Toolbar title="Adicionar" back={true} />
       <View style={styles.container}>
-        <Toolbar title="Criar Encomenda" back={true} />
         <Formik
           enableReinitialize={true}
           initialValues={{
@@ -70,7 +77,7 @@ const CreateOrder = (props: CreateOrderProps) => {
             categoryId: parseInt(category),
           }}
           validationSchema={Yup.object({
-            number: Yup.string().required('Informe um nome'),
+            number: Yup.string().required('Informe um número de rastreio'),
             reminder: Yup.string().required('Informe um lembrete'),
           })}
           onSubmit={registrar}
@@ -83,6 +90,7 @@ const CreateOrder = (props: CreateOrderProps) => {
             errors,
             isValid,
             dirty,
+            values,
           }) => (
             <View style={{ top: 20, padding: 20 }}>
               <Text style={styles.text}>Número de rastreio</Text>
@@ -90,6 +98,8 @@ const CreateOrder = (props: CreateOrderProps) => {
                 placeholder="Número de rastreio"
                 onChangeText={handleChange('number')}
                 onBlur={handleBlur('number')}
+                maxLength={30}
+                style={styles.input}
                 mode="outlined"
                 theme={{ roundness: 10 }}
               />
@@ -101,33 +111,26 @@ const CreateOrder = (props: CreateOrderProps) => {
                 placeholder="Lembrete"
                 onChangeText={handleChange('reminder')}
                 onBlur={handleBlur('reminder')}
+                maxLength={30}
+                style={styles.input}
                 mode="outlined"
                 theme={{ roundness: 10 }}
               />
               {touched.reminder && errors.reminder && (
                 <Text style={styles.erros}>{errors.reminder}</Text>
               )}
-              {/*
-              <Button
-                onPress={showDialog}
-                containerStyle={{
-                  width: 250,
-                  alignSelf: 'center',
-                  top: 20,
-                }}
-                title="Selecione uma categoria"
-              />
-              */}
               <TouchableOpacity onPress={showDialog} activeOpacity={1}>
                 <TextInput
                   placeholder="Categoria"
                   disabled
                   style={{ top: 25 }}
+                  value={categoryOptions[values.categoryId]}
                   mode="outlined"
                   theme={{ roundness: 10 }}
                   right={<TextInput.Icon name={'arrow-down'} />}
                 />
               </TouchableOpacity>
+
               <Button
                 buttonStyle={{ backgroundColor: '#1E82D1', height: 50 }}
                 containerStyle={{
@@ -183,7 +186,11 @@ const CreateOrder = (props: CreateOrderProps) => {
 export default CreateOrder
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: 'white', height: '100%' },
+  container: {
+    backgroundColor: 'white',
+    height: '100%',
+    top: 14,
+  },
   text: {
     color: 'gray',
     padding: 10,
@@ -193,6 +200,9 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   modal: {
+    backgroundColor: 'white',
+  },
+  input: {
     backgroundColor: 'white',
   },
 })
