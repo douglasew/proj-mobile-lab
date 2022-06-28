@@ -7,14 +7,15 @@ import { ScrollView, StyleSheet, Text, ToastAndroid, View } from 'react-native'
 import { Avatar, Button } from 'react-native-elements'
 import { TextInput } from 'react-native-paper'
 import * as Yup from 'yup'
+import unknown from '../../assets/images/no-pick-profile.png'
 import Toolbar from '../../components/toolbar'
 import api from '../../libs/api'
 import { User } from '../../model/users'
+
 interface AccountProps {}
 
 const Account = (props: AccountProps) => {
   const nav = useNavigation<any>()
-  const [photo, setPhoto] = React.useState(null)
   const [user, setuser] = React.useState<User[]>([])
   const [passwordVisible, setPasswordVisible] = React.useState(true)
 
@@ -65,119 +66,122 @@ const Account = (props: AccountProps) => {
   }
 
   return (
-    <ScrollView>
+    <>
       <Toolbar title="Conta" />
-      <View style={styles.container}>
-        <Avatar
-          rounded
-          containerStyle={{ alignSelf: 'center', left: 10 }}
-          size={200}
-          source={{
-            uri:
+      <ScrollView style={{ backgroundColor: 'white', top: 14 }}>
+        <View style={styles.container}>
+          <Avatar
+            rounded
+            containerStyle={{ alignSelf: 'center' }}
+            size={250}
+            source={
               user['photo'] == null
-                ? 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
-                : `data:image/jpeg;base64,${user['photo']}`,
-          }}
-          onPress={() => updateImage()}
-        />
-        <Formik
-          enableReinitialize={true}
-          initialValues={{
-            name: user['name'],
-            email: user['email'],
-            password: '',
-          }}
-          validationSchema={Yup.object({
-            name: Yup.string().required('informe um nome valido'),
-            email: Yup.string()
-              .required('Informe um email')
-              .email('email invalido'),
-            password: Yup.string()
-              .required('informe um senha')
-              .min(8, 'senha invalida'),
-          })}
-          onSubmit={update}
-        >
-          {({
-            handleChange,
-            handleSubmit,
-            handleBlur,
-            touched,
-            errors,
-            isValid,
-            dirty,
-            values,
-          }) => (
-            <View style={{ top: 20, padding: 20 }}>
-              <Text style={styles.text}>Nome</Text>
-              <TextInput
-                placeholder="Nome"
-                onChangeText={handleChange('name')}
-                onBlur={handleBlur('name')}
-                value={values.name}
-                mode="outlined"
-                theme={{ roundness: 10 }}
-              />
-              {touched.name && errors.name && (
-                <Text style={styles.erros}>{errors.name}</Text>
-              )}
-
-              <Text style={styles.text}>E-MAIL</Text>
-              <TextInput
-                placeholder="Email"
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                value={values.email}
-                mode="outlined"
-                theme={{ roundness: 10 }}
-              />
-              {touched.email && errors.email && (
-                <Text style={styles.erros}>{errors.email}</Text>
-              )}
-
-              <Text style={styles.text}>Mudar a Senha</Text>
-              <TextInput
-                placeholder="Senha"
-                secureTextEntry={passwordVisible}
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-                mode="outlined"
-                theme={{ roundness: 10 }}
-                right={
-                  <TextInput.Icon
-                    name={passwordVisible ? 'eye' : 'eye-off'}
-                    onPress={() => setPasswordVisible(!passwordVisible)}
-                  />
-                }
-              />
-              {touched.password && errors.password && (
-                <Text style={styles.erros}>{errors.password}</Text>
-              )}
-              <Button
-                title={'salvar'}
-                onPress={() => handleSubmit()}
-                disabled={!(isValid && dirty)}
-                buttonStyle={{ backgroundColor: '#1E82D1', height: 50 }}
-                containerStyle={{
-                  width: 150,
-                  alignSelf: 'center',
-                  top: 20,
-                  borderRadius: 15,
-                  shadowOffset: { width: -2, height: 4 },
-                  shadowColor: 'gray',
-                  shadowOpacity: 0.2,
-                  shadowRadius: 3,
-                }}
-              />
-            </View>
-          )}
-        </Formik>
-        <Text></Text>
-        <Text></Text>
-        <Text></Text>
-        <Text></Text>
-      </View>
-    </ScrollView>
+                ? unknown
+                : { uri: `data:image/jpeg;base64,${user['photo']}` }
+            }
+            onPress={() => updateImage()}
+          />
+          <Formik
+            enableReinitialize={true}
+            initialValues={{
+              name: user['name'],
+              email: user['email'],
+              password: '',
+            }}
+            validationSchema={Yup.object({
+              name: Yup.string().required('informe um nome valido'),
+              email: Yup.string()
+                .required('Informe um email')
+                .email('email invalido'),
+              password: Yup.string()
+                .required('informe um senha')
+                .min(8, 'senha invalida'),
+            })}
+            onSubmit={update}
+          >
+            {({
+              handleChange,
+              handleSubmit,
+              handleBlur,
+              touched,
+              errors,
+              isValid,
+              dirty,
+              values,
+            }) => (
+              <View style={{ top: 10, padding: 20 }}>
+                <Text style={styles.text}>Nome</Text>
+                <TextInput
+                  placeholder="Nome"
+                  onChangeText={handleChange('name')}
+                  onBlur={handleBlur('name')}
+                  value={values.name}
+                  style={styles.input}
+                  mode="outlined"
+                  theme={{ roundness: 10 }}
+                />
+                {touched.name && errors.name && (
+                  <Text style={styles.erros}>{errors.name}</Text>
+                )}
+                <Text style={styles.text}>E-MAIL</Text>
+                <TextInput
+                  placeholder="Email"
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  value={values.email}
+                  style={styles.input}
+                  mode="outlined"
+                  theme={{ roundness: 10 }}
+                />
+                {touched.email && errors.email && (
+                  <Text style={styles.erros}>{errors.email}</Text>
+                )}
+                <Text style={styles.text}>Mudar a Senha</Text>
+                <TextInput
+                  placeholder="Senha"
+                  secureTextEntry={passwordVisible}
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                  mode="outlined"
+                  theme={{ roundness: 10 }}
+                  style={styles.input}
+                  right={
+                    <TextInput.Icon
+                      name={passwordVisible ? 'eye' : 'eye-off'}
+                      onPress={() => setPasswordVisible(!passwordVisible)}
+                    />
+                  }
+                />
+                {touched.password && errors.password && (
+                  <Text style={styles.erros}>{errors.password}</Text>
+                )}
+                <Button
+                  title={'salvar'}
+                  onPress={() => handleSubmit()}
+                  disabled={!(isValid && dirty)}
+                  buttonStyle={{ backgroundColor: '#1E82D1', height: 50 }}
+                  containerStyle={{
+                    width: 150,
+                    alignSelf: 'center',
+                    top: 20,
+                    borderRadius: 15,
+                    shadowOffset: { width: -2, height: 4 },
+                    shadowColor: 'gray',
+                    shadowOpacity: 0.2,
+                    shadowRadius: 3,
+                  }}
+                />
+              </View>
+            )}
+          </Formik>
+          <Text></Text>
+          <Text></Text>
+          <Text></Text>
+          <Text></Text>
+          <Text></Text>
+        </View>
+      </ScrollView>
+    </>
   )
 }
 
@@ -187,9 +191,6 @@ const styles = StyleSheet.create({
   container: { top: 50 },
   input: {
     backgroundColor: 'white',
-    borderRadius: 15,
-    height: 55,
-    padding: 10,
   },
   text: {
     color: 'gray',

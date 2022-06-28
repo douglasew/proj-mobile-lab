@@ -4,6 +4,7 @@ import jwt_decode from 'jwt-decode'
 import * as React from 'react'
 import { SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Avatar, Icon, Text } from 'react-native-elements'
+import unknown from '../../assets/images/no-pick-profile.png'
 import Toolbar from '../../components/toolbar'
 import api from '../../libs/api'
 import { User } from '../../model/users'
@@ -34,26 +35,17 @@ const HomeScreen = (props: HomeScreenProps) => {
             rounded
             containerStyle={{ alignSelf: 'center', left: 10 }}
             size={90}
-            source={{
-              uri:
-                user['photo'] == null
-                  ? 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
-                  : `data:image/jpeg;base64,${user['photo']}`,
-            }}
+            source={
+              user['photo'] == null
+                ? unknown
+                : { uri: `data:image/jpeg;base64,${user['photo']}` }
+            }
           />
           <View style={styles.introduction}>
             <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
               Olá, {user['name']}
             </Text>
             <Text>O que você fez hoje ?</Text>
-          </View>
-          <View style={styles.icon}>
-            <Icon
-              size={35}
-              color={'black'}
-              name="notifications"
-              onPress={() => console.log('notificações')}
-            />
           </View>
         </View>
         <View></View>
@@ -65,7 +57,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             onPress={() => nav.navigate('list')}
           >
             <Icon name="filter-list" size={100} color={'#23D9BC'} />
-            <Text style={{ textAlign: 'center' }}>Encomendas</Text>
+            <Text style={{ textAlign: 'center' }}>Ativos</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}

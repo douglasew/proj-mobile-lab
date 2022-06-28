@@ -9,48 +9,54 @@ interface SettingsProps {}
 const Settings = (props: SettingsProps) => {
   const nav = useNavigation<any>()
   return (
-    <View style={styles.container}>
+    <>
       <Toolbar title="Configurações" />
-      <View style={styles.option}>
-        <TouchableOpacity
-          style={styles.options}
-          onPress={() => console.log('Aparencia')}
-        >
-          <View style={{ flexDirection: 'row' }}>
-            <Icon name="visibility" />
-            <Text style={{ left: 30 }}>Aparencia</Text>
-          </View>
-          <Icon name="chevron-right" style={{ right: 10 }} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.options}
-          onPress={() => console.log('Privaciade e segurança')}
-        >
-          <View style={{ flexDirection: 'row' }}>
-            <Icon name="lock" />
-            <Text style={{ left: 30 }}>Privaciade e segurança</Text>
-          </View>
-          <Icon name="chevron-right" style={{ right: 10 }} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.options}
-          onPress={() => nav.navigate('about')}
-        >
-          <View style={{ flexDirection: 'row' }}>
-            <Icon name="help" />
-            <Text style={{ left: 30 }}>Sobre</Text>
-          </View>
-          <Icon name="chevron-right" style={{ right: 10 }} />
-        </TouchableOpacity>
+      <View style={styles.container}>
+        <View style={styles.option}>
+          <TouchableOpacity
+            style={styles.options}
+            onPress={() => console.log('Aparencia')}
+          >
+            <View style={{ flexDirection: 'row' }}>
+              <Icon name="visibility" />
+              <Text style={{ left: 30 }}>Aparencia</Text>
+            </View>
+            <Icon name="chevron-right" style={{ right: 10 }} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.options}
+            onPress={() => console.log('Privaciade e segurança')}
+          >
+            <View style={{ flexDirection: 'row' }}>
+              <Icon name="lock" />
+              <Text style={{ left: 30 }}>Privaciade e segurança</Text>
+            </View>
+            <Icon name="chevron-right" style={{ right: 10 }} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.options}
+            onPress={() => nav.navigate('about')}
+          >
+            <View style={{ flexDirection: 'row' }}>
+              <Icon name="help" />
+              <Text style={{ left: 30 }}>Sobre</Text>
+            </View>
+            <Icon name="chevron-right" style={{ right: 10 }} />
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </>
   )
 }
 
 export default Settings
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: 'white', height: '100%' },
+  container: {
+    backgroundColor: 'white',
+    height: '100%',
+    top: 14,
+  },
   option: {
     marginTop: 50,
   },
