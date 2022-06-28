@@ -1,17 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import * as React from 'react'
-import {
-  Alert,
-  FlatList,
-  Image,
-  StyleSheet,
-  ToastAndroid,
-  View,
-} from 'react-native'
+import { Alert, Image, StyleSheet, ToastAndroid, View } from 'react-native'
 import { Text } from 'react-native-elements'
+import { FlatList } from 'react-native-gesture-handler'
 import { FAB } from 'react-native-paper'
-import icon from '../../assets/images/document-filed.png'
+import empty from '../../assets/images/empty-order.png'
 import Toolbar from '../../components/toolbar'
 import api from '../../libs/api'
 import { Order } from '../../model/orders'
@@ -20,7 +14,7 @@ import OrdersFiledList from './itens-orders'
 interface FiledProps {}
 
 const Filed = (props: FiledProps) => {
-  const ICON = Image.resolveAssetSource(icon).uri
+  const EMPTY = Image.resolveAssetSource(empty).uri
   const nav = useNavigation<any>()
   const [orders, setOrders] = React.useState<Order[]>([])
 
@@ -99,9 +93,8 @@ const Filed = (props: FiledProps) => {
 
   return (
     <>
+      <Toolbar title="Arquivados" back={true} />
       <View style={styles.container}>
-        <Toolbar title="Arquivados" back={true} />
-
         {orders.length == 0 ? (
           <View
             style={{
@@ -112,11 +105,13 @@ const Filed = (props: FiledProps) => {
           >
             <Image
               source={{
-                uri: ICON,
+                uri: EMPTY,
               }}
               style={{ width: 300, height: 300 }}
             />
-            <Text>Nenhuma encomenda arquivada</Text>
+            <Text style={{ fontWeight: 'bold' }}>
+              Nenhuma encomenda arquivada
+            </Text>
           </View>
         ) : (
           <FlatList
@@ -150,9 +145,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     height: '100%',
+    top: 14,
   },
   list: {
     top: 10,
+    marginBottom: 10,
   },
   fab: {
     position: 'absolute',

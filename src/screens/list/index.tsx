@@ -5,7 +5,7 @@ import { Alert, Image, StyleSheet, ToastAndroid, View } from 'react-native'
 import { Text } from 'react-native-elements'
 import { FlatList } from 'react-native-gesture-handler'
 import { FAB } from 'react-native-paper'
-import icon from '../../assets/images/document-list.png'
+import empty from '../../assets/images/empty-order.png'
 import Toolbar from '../../components/toolbar'
 import api from '../../libs/api'
 import { Order } from '../../model/orders'
@@ -14,7 +14,7 @@ import ItemOrder from './itens-order'
 interface ListProps {}
 
 const List = (props: ListProps) => {
-  const ICON = Image.resolveAssetSource(icon).uri
+  const EMPTY = Image.resolveAssetSource(empty).uri
   const nav = useNavigation<any>()
   const [orders, setOrders] = React.useState<Order[]>([])
 
@@ -72,9 +72,8 @@ const List = (props: ListProps) => {
 
   return (
     <>
+      <Toolbar title="Ativos" back={true} />
       <View style={styles.container}>
-        <Toolbar title="Encomendas" back={true} />
-
         {orders.length == 0 ? (
           <View
             style={{
@@ -85,11 +84,11 @@ const List = (props: ListProps) => {
           >
             <Image
               source={{
-                uri: ICON,
+                uri: EMPTY,
               }}
               style={{ width: 300, height: 300 }}
             />
-            <Text>Lista de encomendas vazia</Text>
+            <Text style={{ fontWeight: 'bold' }}>Nenhuma encomendas ativa</Text>
           </View>
         ) : (
           <FlatList
@@ -122,6 +121,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     height: '100%',
+    top: 14,
   },
   list: {
     marginBottom: 10,

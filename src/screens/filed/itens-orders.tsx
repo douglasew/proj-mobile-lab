@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { SwipeRow } from 'react-native-swipe-list-view'
+import icon from '../../assets/images/order-icon2.png'
 import { Order } from '../../model/orders'
 
 interface OrdersFiledListProps {
@@ -11,6 +12,7 @@ interface OrdersFiledListProps {
 }
 
 const OrdersFiledList = (props: OrdersFiledListProps) => {
+  const ORDER_ICON = Image.resolveAssetSource(icon).uri
   return (
     <View>
       <SwipeRow
@@ -35,12 +37,17 @@ const OrdersFiledList = (props: OrdersFiledListProps) => {
         </View>
 
         <View style={styles.container}>
-          <Icon name="computer" color={'black'} size={50} />
+          <Image
+            source={{
+              uri: ORDER_ICON,
+            }}
+            style={{ width: 50, height: 50 }}
+          />
           <View style={styles.info}>
             <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-              {props.orders.number}
+              {props.orders.reminder}
             </Text>
-            <Text>{props.orders.reminder}</Text>
+            <Text>{props.orders.number}</Text>
           </View>
         </View>
       </SwipeRow>
