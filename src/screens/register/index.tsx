@@ -28,7 +28,6 @@ const RegisterScreen = (props: RegisterScreenProps) => {
       .then((response) => {
         ToastAndroid.show('Conta criada com sucesso', 3000)
         nav.navigate('login')
-        console.log(response.data)
       })
       .catch(() => ToastAndroid.show('O email já está em uso', 3000))
   }
