@@ -7,8 +7,8 @@ import { Order } from '../../model/orders'
 
 interface OrdersFiledListProps {
   orders: Order
-  onExcluir(id: string)
-  onActivate(id: string)
+  onExcluir(id: string, reminder: string)
+  onActivate(id: string, reminder: string)
 }
 
 const OrdersFiledList = (props: OrdersFiledListProps) => {
@@ -24,13 +24,17 @@ const OrdersFiledList = (props: OrdersFiledListProps) => {
         <View style={styles.options}>
           <TouchableOpacity
             style={styles.edit}
-            onPress={() => props.onActivate(props.orders.id)}
+            onPress={() =>
+              props.onActivate(props.orders.id, props.orders.reminder)
+            }
           >
             <Icon name="list" color={'white'} />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.delete}
-            onPress={() => props.onExcluir(props.orders.id)}
+            onPress={() =>
+              props.onExcluir(props.orders.id, props.orders.reminder)
+            }
           >
             <Icon name="delete" color={'white'} />
           </TouchableOpacity>

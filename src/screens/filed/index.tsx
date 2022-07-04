@@ -28,41 +28,49 @@ const Filed = (props: FiledProps) => {
     })
   }, [])
 
-  const excluir = (id: any) => {
-    Alert.alert('Excluir a encomenda', `Deseja realmente excluir  ?`, [
-      {
-        text: 'Sim',
-        onPress: async () => {
-          var user_id = await AsyncStorage.getItem('user_id')
-          await api.delete(`/orders/${id}`)
+  const excluir = (id: any, reminder: string) => {
+    Alert.alert(
+      'Excluir a encomenda',
+      `Deseja realmente excluir ${reminder} ?`,
+      [
+        {
+          text: 'Sim',
+          onPress: async () => {
+            var user_id = await AsyncStorage.getItem('user_id')
+            await api.delete(`/orders/${id}`)
 
-          api
-            .get(`/orders/filed/${user_id}`)
-            .then((response) => setOrders(response.data))
-          ToastAndroid.show('Encomenda excluida', ToastAndroid.SHORT)
+            api
+              .get(`/orders/filed/${user_id}`)
+              .then((response) => setOrders(response.data))
+            ToastAndroid.show('Encomenda excluida', ToastAndroid.SHORT)
+          },
         },
-      },
-      { text: 'Não' },
-    ])
+        { text: 'Não' },
+      ]
+    )
   }
 
-  const activate = (id: any) => {
-    Alert.alert('Ativar encomenda', `Deseja realmente ativar a encomenda ?`, [
-      {
-        text: 'Sim',
-        onPress: async () => {
-          var user_id = await AsyncStorage.getItem('user_id')
+  const activate = (id: any, reminder: string) => {
+    Alert.alert(
+      'Ativar encomenda',
+      `Deseja realmente ativar a encomenda ${reminder} ?`,
+      [
+        {
+          text: 'Sim',
+          onPress: async () => {
+            var user_id = await AsyncStorage.getItem('user_id')
 
-          await api.put(`/orders/${id}`, { status: true })
-          api
-            .get(`/orders/filed/${user_id}`)
-            .then((response) => setOrders(response.data))
+            await api.put(`/orders/${id}`, { status: true })
+            api
+              .get(`/orders/filed/${user_id}`)
+              .then((response) => setOrders(response.data))
 
-          ToastAndroid.show('Encomenda ativada', ToastAndroid.SHORT)
+            ToastAndroid.show('Encomenda ativada', ToastAndroid.SHORT)
+          },
         },
-      },
-      { text: 'Não' },
-    ])
+        { text: 'Não' },
+      ]
+    )
   }
 
   const deleteAll = () => {

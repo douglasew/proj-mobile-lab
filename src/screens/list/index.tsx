@@ -28,10 +28,10 @@ const List = (props: ListProps) => {
     })
   }, [])
 
-  const excluir = (id: any) => {
+  const excluir = (id: any, reminder: string) => {
     Alert.alert(
       'Excluir a encomenda',
-      `Deseja realmente excluir a encomenda  ?`,
+      `Deseja realmente excluir a encomenda ${reminder} ?`,
       [
         {
           text: 'Sim',
@@ -51,23 +51,27 @@ const List = (props: ListProps) => {
     )
   }
 
-  const arquivar = (id: any) => {
-    Alert.alert('Arquivar a encomenda', `Deseja realmente arquivar  ?`, [
-      {
-        text: 'Sim',
-        onPress: async () => {
-          var user_id = await AsyncStorage.getItem('user_id')
+  const arquivar = (id: any, reminder: string) => {
+    Alert.alert(
+      'Arquivar a encomenda',
+      `Deseja realmente arquivar ${reminder} ?`,
+      [
+        {
+          text: 'Sim',
+          onPress: async () => {
+            var user_id = await AsyncStorage.getItem('user_id')
 
-          await api.put(`/orders/${id}`, { status: false })
-          api
-            .get(`/orders/user/${user_id}`)
-            .then((response) => setOrders(response.data))
+            await api.put(`/orders/${id}`, { status: false })
+            api
+              .get(`/orders/user/${user_id}`)
+              .then((response) => setOrders(response.data))
 
-          ToastAndroid.show('Encomenda arquivada', ToastAndroid.SHORT)
+            ToastAndroid.show('Encomenda arquivada', ToastAndroid.SHORT)
+          },
         },
-      },
-      { text: 'Não' },
-    ])
+        { text: 'Não' },
+      ]
+    )
   }
 
   return (

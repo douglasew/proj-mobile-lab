@@ -7,8 +7,8 @@ import { Order } from '../../model/orders'
 
 interface ItemUserProps {
   orders: Order
-  onExcluir(id: string)
-  onArquivar(id: string)
+  onExcluir(id: string, reminder: string)
+  onArquivar(id: string, reminder: string)
 }
 
 const ItemUser = (props: ItemUserProps) => {
@@ -24,13 +24,17 @@ const ItemUser = (props: ItemUserProps) => {
         <View style={styles.options}>
           <TouchableOpacity
             style={styles.edit}
-            onPress={() => props.onArquivar(props.orders.id)}
+            onPress={() =>
+              props.onArquivar(props.orders.id, props.orders.reminder)
+            }
           >
             <Icon name="inventory" color={'white'} />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.delete}
-            onPress={() => props.onExcluir(props.orders.id)}
+            onPress={() =>
+              props.onExcluir(props.orders.id, props.orders.reminder)
+            }
           >
             <Icon name="delete" color={'white'} />
           </TouchableOpacity>
