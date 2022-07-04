@@ -3,8 +3,17 @@ import { useNavigation } from '@react-navigation/native'
 import * as ImagePicker from 'expo-image-picker'
 import { Formik } from 'formik'
 import * as React from 'react'
-import { ScrollView, StyleSheet, Text, ToastAndroid, View } from 'react-native'
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { Avatar, Button } from 'react-native-elements'
+import { Modalize } from 'react-native-modalize'
 import { TextInput } from 'react-native-paper'
 import * as Yup from 'yup'
 import unknown from '../../assets/images/no-pick-profile.png'
@@ -18,6 +27,7 @@ const Account = (props: AccountProps) => {
   const nav = useNavigation<any>()
   const [user, setuser] = React.useState<User[]>([])
   const [passwordVisible, setPasswordVisible] = React.useState(true)
+  const modal = React.useRef<Modalize>()
 
   React.useEffect(() => {
     nav.addListener('focus', async () => {
@@ -49,6 +59,7 @@ const Account = (props: AccountProps) => {
           ToastAndroid.show('Não foi possivel conectar ao servidor', 3000)
         )
     }
+    modal.current?.close()
   }
 
   const update = async (dados) => {
@@ -65,6 +76,29 @@ const Account = (props: AccountProps) => {
       )
   }
 
+  const deleteImage = async () => {
+    Alert.alert('Remover foto', `Deseja remover a foto do perfil ?`, [
+      {
+        text: 'Sim',
+        onPress: async () => {
+          var user_id = await AsyncStorage.getItem('user_id')
+          api
+            .put(`/users/photo/${user_id}`, { photo: null })
+            .then(() => {
+              ToastAndroid.show('Foto de perfil deletada', 3000)
+              nav.navigate('home')
+            })
+            .catch(() =>
+              ToastAndroid.show('Não foi possivel conectar ao servidor', 3000)
+            )
+
+          modal.current?.close()
+        },
+      },
+      { text: 'Não', onPress: () => modal.current?.close() },
+    ])
+  }
+
   return (
     <>
       <Toolbar title="Conta" />
@@ -79,7 +113,7 @@ const Account = (props: AccountProps) => {
                 ? unknown
                 : { uri: `data:image/jpeg;base64,${user['photo']}` }
             }
-            onPress={() => updateImage()}
+            onPress={() => modal.current?.open()}
           />
           <Formik
             enableReinitialize={true}
@@ -136,7 +170,7 @@ const Account = (props: AccountProps) => {
                 {touched.email && errors.email && (
                   <Text style={styles.erros}>{errors.email}</Text>
                 )}
-                <Text style={styles.text}>Mudar a Senha</Text>
+                <Text style={styles.text}>Mudar a senha</Text>
                 <TextInput
                   placeholder="Senha"
                   secureTextEntry={passwordVisible}
@@ -178,9 +212,33 @@ const Account = (props: AccountProps) => {
           <Text></Text>
           <Text></Text>
           <Text></Text>
-          <Text></Text>
         </View>
       </ScrollView>
+      <>
+        <Modalize ref={modal} modalHeight={180}>
+          <View style={{ padding: 20, height: '100%' }}>
+            <View
+              style={{
+                borderBottomColor: 'gray',
+                borderBottomWidth: 1,
+                height: 40,
+              }}
+            >
+              <Text>Alterar foto de perfil</Text>
+            </View>
+            <View style={{ top: 10 }}>
+              <TouchableOpacity onPress={updateImage} style={{ top: 15 }}>
+                <Text>Nova foto do perfil</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={deleteImage} style={{ top: 40 }}>
+                <Text style={{ color: 'red' }}>Remover foto do perfil</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <Text></Text>
+          <Text></Text>
+        </Modalize>
+      </>
     </>
   )
 }
@@ -188,7 +246,7 @@ const Account = (props: AccountProps) => {
 export default Account
 
 const styles = StyleSheet.create({
-  container: { top: 50 },
+  container: { top: 30 },
   input: {
     backgroundColor: 'white',
   },
