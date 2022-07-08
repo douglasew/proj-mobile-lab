@@ -3,9 +3,9 @@ import { Image, Linking, StyleSheet, Text, View } from 'react-native'
 import logo from '../../assets/images/Black__Yellow_Museum_Logo.png'
 import Toolbar from '../../components/toolbar'
 
-interface AboutProps {}
+interface AboutScreenProps {}
 
-const About = (props: AboutProps) => {
+const AboutScreen = (props: AboutScreenProps) => {
   const APP_LOGO = Image.resolveAssetSource(logo).uri
 
   return (
@@ -35,7 +35,7 @@ const About = (props: AboutProps) => {
   )
 }
 
-export default About
+export default AboutScreen
 
 const styles = StyleSheet.create({
   container: {

@@ -21,9 +21,9 @@ import Toolbar from '../../components/toolbar'
 import api from '../../libs/api'
 import { User } from '../../model/users'
 
-interface AccountProps {}
+interface AccountScreenProps {}
 
-const Account = (props: AccountProps) => {
+const AccountScreen = (props: AccountScreenProps) => {
   const nav = useNavigation<any>()
   const [user, setuser] = React.useState<User[]>([])
   const [passwordVisible, setPasswordVisible] = React.useState(true)
@@ -243,7 +243,7 @@ const Account = (props: AccountProps) => {
   )
 }
 
-export default Account
+export default AccountScreen
 
 const styles = StyleSheet.create({
   container: { top: 30 },

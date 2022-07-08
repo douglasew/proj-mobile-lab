@@ -22,9 +22,9 @@ import Toolbar from '../../components/toolbar'
 import api from '../../libs/api'
 import { User } from '../../model/users'
 
-interface CreateOrderProps {}
+interface CreateOrderScreenProps {}
 
-const CreateOrder = (props: CreateOrderProps) => {
+const CreateOrderScreen = (props: CreateOrderScreenProps) => {
   const nav = useNavigation<any>()
   const [user, setUser] = React.useState<User[]>([])
   const [category, setCategory] = React.useState('1')
@@ -183,7 +183,7 @@ const CreateOrder = (props: CreateOrderProps) => {
   )
 }
 
-export default CreateOrder
+export default CreateOrderScreen
 
 const styles = StyleSheet.create({
   container: {

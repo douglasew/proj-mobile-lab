@@ -9,11 +9,11 @@ import empty from '../../assets/images/empty-order.png'
 import Toolbar from '../../components/toolbar'
 import api from '../../libs/api'
 import { Order } from '../../model/orders'
-import ItemOrder from './itens-order'
+import ActiveOrder from './ActiveOrder'
 
-interface ListProps {}
+interface ActiveScreenProps {}
 
-const List = (props: ListProps) => {
+const ActiveScreen = (props: ActiveScreenProps) => {
   const EMPTY = Image.resolveAssetSource(empty).uri
   const nav = useNavigation<any>()
   const [orders, setOrders] = React.useState<Order[]>([])
@@ -101,7 +101,7 @@ const List = (props: ListProps) => {
             extraData={orders}
             keyExtractor={(t) => String(t.id)}
             renderItem={({ item }) => (
-              <ItemOrder
+              <ActiveOrder
                 orders={item}
                 onExcluir={excluir}
                 onArquivar={arquivar}
@@ -119,7 +119,7 @@ const List = (props: ListProps) => {
   )
 }
 
-export default List
+export default ActiveScreen
 
 const styles = StyleSheet.create({
   container: {

@@ -4,9 +4,9 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Icon } from 'react-native-elements'
 import Toolbar from '../../components/toolbar'
 
-interface SettingsProps {}
+interface SettingsScreenProps {}
 
-const Settings = (props: SettingsProps) => {
+const SettingsScreen = (props: SettingsScreenProps) => {
   const nav = useNavigation<any>()
   return (
     <>
@@ -49,7 +49,7 @@ const Settings = (props: SettingsProps) => {
   )
 }
 
-export default Settings
+export default SettingsScreen
 
 const styles = StyleSheet.create({
   container: {

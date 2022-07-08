@@ -16,9 +16,9 @@ import logo from '../../assets/images/Black__Yellow_Museum_Logo.png'
 import backgroud from '../../assets/images/image-from-rawpixel-id-594508-jpeg.jpg'
 import api from '../../libs/api'
 
-interface LoginProps {}
+interface LoginScreenProps {}
 
-const Login = (props: LoginProps) => {
+const LoginScreen = (props: LoginScreenProps) => {
   const nav = useNavigation<any>()
   const [passwordVisible, setPasswordVisible] = React.useState(true)
 
@@ -135,7 +135,7 @@ const Login = (props: LoginProps) => {
   )
 }
 
-export default Login
+export default LoginScreen
 
 const styles = StyleSheet.create({
   container: {

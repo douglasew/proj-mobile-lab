@@ -5,13 +5,13 @@ import { SwipeRow } from 'react-native-swipe-list-view'
 import icon from '../../assets/images/order-icon2.png'
 import { Order } from '../../model/orders'
 
-interface OrdersFiledListProps {
+interface FiledOrdersProps {
   orders: Order
   onExcluir(id: string, reminder: string)
   onActivate(id: string, reminder: string)
 }
 
-const OrdersFiledList = (props: OrdersFiledListProps) => {
+const FiledOrders = (props: FiledOrdersProps) => {
   const ORDER_ICON = Image.resolveAssetSource(icon).uri
   return (
     <View>
@@ -59,7 +59,7 @@ const OrdersFiledList = (props: OrdersFiledListProps) => {
   )
 }
 
-export default OrdersFiledList
+export default FiledOrders
 
 const styles = StyleSheet.create({
   container: {

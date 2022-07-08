@@ -9,11 +9,11 @@ import empty from '../../assets/images/empty-order.png'
 import Toolbar from '../../components/toolbar'
 import api from '../../libs/api'
 import { Order } from '../../model/orders'
-import OrdersFiledList from './itens-orders'
+import FiledOrders from './FiledOrders'
 
-interface FiledProps {}
+interface FiledScreenProps {}
 
-const Filed = (props: FiledProps) => {
+const FiledScreen = (props: FiledScreenProps) => {
   const EMPTY = Image.resolveAssetSource(empty).uri
   const nav = useNavigation<any>()
   const [orders, setOrders] = React.useState<Order[]>([])
@@ -128,7 +128,7 @@ const Filed = (props: FiledProps) => {
             extraData={orders}
             keyExtractor={(t) => String(t.id)}
             renderItem={({ item }) => (
-              <OrdersFiledList
+              <FiledOrders
                 orders={item}
                 onExcluir={excluir}
                 onActivate={activate}
@@ -147,7 +147,7 @@ const Filed = (props: FiledProps) => {
   )
 }
 
-export default Filed
+export default FiledScreen
 
 const styles = StyleSheet.create({
   container: {
