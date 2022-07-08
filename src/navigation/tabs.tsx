@@ -2,9 +2,9 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import * as React from 'react'
 
-import Account from '../screens/account'
-import Home from '../screens/home'
-import Settings from '../screens/settings'
+import AccountScreen from '../screens/AccountScreen'
+import HomeScreen from '../screens/HomeScreen'
+import SettingsScreen from '../screens/SettingsScreen'
 
 interface TabsProps {}
 
@@ -23,7 +23,7 @@ const Tabs = (props: TabsProps) => {
     >
       <Tab.Screen
         name="home"
-        component={Home}
+        component={HomeScreen}
         options={{
           tabBarIcon: (props) => (
             <MaterialIcons name="home" size={40} color={props.color} />
@@ -33,7 +33,7 @@ const Tabs = (props: TabsProps) => {
       />
       <Tab.Screen
         name="account"
-        component={Account}
+        component={AccountScreen}
         options={{
           tabBarIcon: (props) => (
             <MaterialIcons name="person" size={40} color={props.color} />
@@ -43,7 +43,7 @@ const Tabs = (props: TabsProps) => {
       />
       <Tab.Screen
         name="settings"
-        component={Settings}
+        component={SettingsScreen}
         options={{
           tabBarIcon: (props) => (
             <MaterialIcons name="settings" size={40} color={props.color} />
